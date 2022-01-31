@@ -1,0 +1,28 @@
+name: CulturelandDonation
+version: ${project.version}
+main: net.gooday2die.culturelanddonation.CulturelandDonation
+api-version: 1.18
+authors: [ Gooday2die ]
+description: A Korean style donation processing plugin
+website: https://github.com/gooday2die/MCCulturelandDonation
+
+commands:
+  redeem:
+    description: 문화상품권 핀번호를 후원합니다.
+    usage: /<command> 1234-1234-1234-123456
+    permission: clanddonate.redeem
+
+  donate:
+    description: 문화상품권 핀번호를 후원합니다.
+    usage: /<command> 1234-1234-1234-123456
+    permission: culturelanddonate.redeem
+
+  문상:
+    description: 문화상품권 핀번호를 후원합니다.
+    usage: /<command> 1234-1234-1234-123456
+    permission: culturelanddonate.redeem
+
+  후원:
+    description: 문화상품권 핀번호를 후원합니다.
+    usage: /<command> 1234-1234-1234-123456
+    permission: culturelanddonate.redeem
