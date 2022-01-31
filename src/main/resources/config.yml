@@ -1,0 +1,32 @@
+#   _________  ________  ________  ________  ___  ___
+#  |\___   ___\\   __  \|\   __  \|\   ____\|\  \|\  \
+#  \|___ \  \_\ \  \|\  \ \  \|\  \ \  \___|\ \  \\\  \
+#       \ \  \ \ \  \\\  \ \   _  _\ \  \    \ \   __  \
+#        \ \  \ \ \  \\\  \ \  \\  \\ \  \____\ \  \ \  \
+#         \ \__\ \ \_______\ \__\\ _\\ \_______\ \__\ \__\
+#          \|__|  \|_______|\|__|\|__|\|_______|\|__|\|__|
+#
+# Cultureland Donation Plugin - 문화상품권 자동 입력 후원 플러그인
+# By Gooday2die
+# db_enable: MySQL DB를 사용할지 여부입니다. 예시 : true
+# db_ip : MySQL 서버 IP를 적으면 됩니다. 예시 : 127.0.0.1
+# db_user : Mysql 서버 유저를 적으면 됩니다. 예시 : root
+# db_passwd : Mysql 서버 유저의 비밀번호를 적으면 됩니다. 예시 : passwd
+# db_name : Mysql 서버의 이름입니다.
+# broadcast : true일시 후원한 유저를 서버 전체에 방송합니다. 예시 : [알림] Steve님이 20000원을 후원하셨습니다!
+# donationCommands: 후원시 console 로 실행할 명령어를 적어주세요. 만약 한개 이상이라면 ##으로 구별해주세요
+#           또, %AMOUNT% 를 사용시 해당 후원자가 후원한 금액으로 대체됩니다
+# 예시: commands: say hi##say price %AMOUNT%  --> 사용시 console로 say hi 명령어와 say price 후원금액 이 됩니다.
+# api_server : CulturelandPython API 를 운영중인 ip 를 적으시면 됩니다. 예시 127.0.0.1:5000
+
+db_enable: true
+db_ip: "127.0.0.1"
+db_user: "root"
+db_passwd: "passwd"
+db_name: "example"
+broadcast: true
+donationCommands: "say hi %AMOUNT%##"
+api_server : "http://127.0.0.1:5000"
+
+
+
