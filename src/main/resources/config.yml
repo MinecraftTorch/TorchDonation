@@ -19,7 +19,7 @@
 # 예시: commands: say hi##say price %AMOUNT%  --> 사용시 console로 say hi 명령어와 say price 후원금액 이 됩니다.
 # api_server : CulturelandPython API 를 운영중인 ip 를 적으시면 됩니다. 예시 127.0.0.1:5000
 
-db_enable: true
+db_enable: false
 db_ip: "127.0.0.1"
 db_user: "root"
 db_passwd: "passwd"

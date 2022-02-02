@@ -2,7 +2,11 @@ package net.gooday2die.culturelanddonation.donationProcessing;
 
 import net.gooday2die.culturelanddonation.ConfigValues;
 import net.gooday2die.culturelanddonation.MessageSender;
+import org.bukkit.Bukkit;
 
+import javax.swing.plaf.nimbus.State;
+import java.io.File;
+import java.io.IOException;
 import java.sql.*;
 /**
  * TODO:
@@ -21,8 +25,22 @@ public class dbConnection {
     public static Connection connect(){
         Connection conn = null;
         try{
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://" + ConfigValues.db_ip + ConfigValues.db_name;
+            String url;
+            if (ConfigValues.db_enable){
+                url = "jdbc:mysql://" + ConfigValues.db_ip + "/" + ConfigValues.db_name;
+            }
+            else{
+                File dataFolder = new File(ConfigValues.cur_path, "data.db");
+                if (!dataFolder.exists()){ // if the file does not exist
+                    try {
+                        dataFolder.createNewFile();
+                    } catch (IOException e) {
+                        MessageSender.toConsole.error("Cannot generate SQLITE database file.");
+                    }
+                }
+                url = "jdbc:sqlite:" + dataFolder;
+            }
+
             conn = DriverManager.getConnection(url, ConfigValues.db_id, ConfigValues.db_pw);
 
             // create table if not exists
@@ -33,10 +51,11 @@ public class dbConnection {
             stmt.execute(createTable1);
             stmt.execute(createTable2);
 
-        } catch(ClassNotFoundException e){
-            MessageSender.toConsole.error("Donation - Driver loading failed");
-        } catch(SQLException e){
+        }catch(SQLSyntaxErrorException e){
+            MessageSender.toConsole.error("Donation - Cannot use database : " + ConfigValues.db_name);
+        }catch(SQLException e){
             MessageSender.toConsole.error("Donation - Cannot connect DB" + e);
+            e.printStackTrace();
         }
         return conn;
     }
@@ -68,6 +87,28 @@ public class dbConnection {
     }
 
     /**
+     * A method for resetting tries of a specific user
+     * @param username the user to reset tries
+     */
+    public static void resetTries(String username){
+        int orgTries = 0;
+        orgTries = getTries(username);
+        Connection conn = connect();
+        String SQL = "";
+        if (orgTries == -1) {
+            SQL = "INSERT INTO donation_clients (username, total, tries) VALUES (\"" + username + "\", 0, 0);";
+        } else{
+            SQL = "UPDATE donation_clients SET tries = " + Integer.toString(0) + " WHERE username = \"" + username + "\"";
+        }
+        try {
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(SQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * A method that gets total donation amount from db
      * @param username the username to check
      * @return returns integer amount of money. -1 if not exists
@@ -83,7 +124,7 @@ public class dbConnection {
             rs.next();
             total = rs.getInt("total");
         } catch (SQLException e) { // when user does not exist
-            e.printStackTrace();
+            total = -1;
             total = -1;
         }
         try{
@@ -113,14 +154,14 @@ public class dbConnection {
 
         String currentTime = sdf.format(dt);
         if (total == -1){
-            SQL1 = "INSERT INTO donation_clients (username, total, tries) VALUE (\"" + username + "\", " +
+            SQL1 = "INSERT INTO donation_clients (username, total, tries) VALUES (\"" + username + "\", " +
                     Integer.toString(amount) + " , 0)";
         }else{
             total = amount + total;
             SQL1 = "UPDATE donation_clients SET total = " + Integer.toString(total) + ", tries=0 WHERE username = \""
                     + username + "\"";
         }
-        SQL2 = "INSERT INTO donation_log (username, code, date, amount) VALUE (\"" + username + "\", \"" +
+        SQL2 = "INSERT INTO donation_log (username, code, date, amount) VALUES (\"" + username + "\", \"" +
                 code + "\", \"" + currentTime + "\" , "  + Integer.toString(amount) + ")";
 
 
@@ -145,11 +186,10 @@ public class dbConnection {
         Connection conn = connect();
         String SQL = "";
         if (orgTries == -1) {
-            SQL = "INSERT INTO donation_clients (username, total, tries) VALUE (\"" + username + "\", 0, 0)";
+            SQL = "INSERT INTO donation_clients (username, total, tries) VALUES (\"" + username + "\", 0, 0);";
         } else{
             orgTries = orgTries + 1;
-            SQL = "UPDATE donation_clients SET tries = " + Integer.toString(orgTries) + " WHERE username = \""
-                    + username + "\"";
+            SQL = "UPDATE donation_clients SET tries = " + Integer.toString(orgTries) + " WHERE username = \"" + username + "\"";
         }
         try {
             Statement stmt = conn.createStatement();
