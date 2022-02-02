@@ -1,6 +1,7 @@
 package net.gooday2die.culturelanddonation.donationProcessing;
 
 import net.gooday2die.culturelanddonation.ConfigValues;
+import org.checkerframework.checker.units.qual.C;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,6 +19,7 @@ public class apiConnection {
      */
     public static boolean isConnected(){
         final String TestURL = ConfigValues.api_url +  "/test_connection";
+        System.out.println(ConfigValues.api_url);
         System.out.println(TestURL);
         boolean connectionResult = false;
         try {
@@ -71,11 +73,9 @@ public class apiConnection {
 
 
         try {
-            //파라미터로 들어온 url을 사용해 connection 실시
             url = new URL(totalUrl);
             conn = (HttpURLConnection) url.openConnection();
 
-            //http 요청에 필요한 타입 정의 실시
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json; utf-8"); //post body json으로 던지기 위함
             conn.setRequestProperty("Accept", "application/json");
@@ -88,7 +88,6 @@ public class apiConnection {
                 e.printStackTrace();
             }
 
-            //http 요청 실시
             conn.connect();
 
             result.responseCode = Integer.parseInt(String.valueOf(conn.getResponseCode()));

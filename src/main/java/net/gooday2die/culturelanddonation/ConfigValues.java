@@ -1,5 +1,7 @@
 package net.gooday2die.culturelanddonation;
 
+import java.io.File;
+
 /**
  * A class for saving config values for future use.
  */
@@ -14,4 +16,5 @@ public class ConfigValues {
     public static boolean db_enable = true;
     public static boolean broadcast = true;
     public static String api_url = null;
+    public static File cur_path = null;
 }
