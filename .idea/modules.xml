@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CulturelandDonation.iml" filepath="$PROJECT_DIR$/CulturelandDonation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TorchDonation.iml" filepath="$PROJECT_DIR$/TorchDonation.iml" />
     </modules>
   </component>
 </project>

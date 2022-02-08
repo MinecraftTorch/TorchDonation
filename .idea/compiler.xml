@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="CulturelandDonation" />
+        <module name="TorchDonation" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="CulturelandDonation" target="14" />
+      <module name="TorchDonation" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
