@@ -1,38 +1,13 @@
-name: CulturelandDonation
+name: TorchDonation
 version: ${project.version}
-main: net.gooday2die.culturelanddonation.CulturelandDonation
+main: net.gooday2die.torchdonation.TorchDonation
 api-version: 1.18
 authors: [ Gooday2die ]
-description: A Korean style donation processing plugin
-website: https://github.com/gooday2die/MCCulturelandDonation
+description: A Donation Plugin for Korean Minecraft Servers
+website: https://github.com/gooday2die/TorchDonation
 
 commands:
-  redeem:
-    description: 문화상품권 핀번호를 후원합니다.
-    usage: /<command> 1234-1234-1234-123456
-    permission: clanddonate.redeem
-
-  donate:
-    description: 문화상품권 핀번호를 후원합니다.
-    usage: /<command> 1234-1234-1234-123456
-    permission: culturelanddonate.redeem
-
-  문상:
-    description: 문화상품권 핀번호를 후원합니다.
-    usage: /<command> 1234-1234-1234-123456
-    permission: culturelanddonate.redeem
-
-  후원:
-    description: 문화상품권 핀번호를 후원합니다.
-    usage: /<command> 1234-1234-1234-123456
-    permission: culturelanddonate.redeem
-
-  dresettries:
-    description: 한 유저의 충전 실패 횟수를 초기화합니다.
-    usage: /<command> username
-    permission: culturelanddonate.resettries
-
-  reportdonation:
-    description: 한 유저의 총 충전액을 확인합니다.
-    usage: /<command> username
-    permission: culturelanddonate.reportdonation
+  test:
+    description: test
+    usage: /<command>
+    permission: TorchDonation.test
