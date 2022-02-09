@@ -1,5 +1,15 @@
 package net.gooday2die.torchdonation;
 
+/**
+ * Torch Donation Plugin
+ * Edited Date : 2022-02-09
+ * DO NOT REMOVE MESSAGE PREFIXES OF THIS PLUGIN
+ *
+ * @author Gooday2die @ https://github.com/gooday2die/TorchDonation
+ */
+
+import java.io.File;
+
 public class ConfigValues {
     public static String username = null;
     public static String password = null;
@@ -10,4 +20,5 @@ public class ConfigValues {
     public static String dbPW = null;
     public static String dbName = null;
     public static String dbTablePrefix = null;
+    public static File curPath = null;
 }

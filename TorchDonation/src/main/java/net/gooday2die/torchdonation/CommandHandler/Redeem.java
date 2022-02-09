@@ -1,8 +1,17 @@
 package net.gooday2die.torchdonation.CommandHandler;
 
+/**
+ * Torch Donation Plugin
+ * Edited Date : 2022-02-09
+ * DO NOT REMOVE MESSAGE PREFIXES OF THIS PLUGIN
+ *
+ * @author Gooday2die @ https://github.com/gooday2die/TorchDonation
+ */
+
 import net.gooday2die.torchdonation.ConfigValues;
 import net.gooday2die.torchdonation.CulturelandDonation.RewardUser;
 import net.gooday2die.torchdonation.CulturelandDonation.Session;
+import net.gooday2die.torchdonation.dbHandler.dbConnection;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -12,6 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.regex.Pattern;
+
 
 /**
  * A class for redeeming giftcards
@@ -57,13 +67,21 @@ public class Redeem implements CommandExecutor {
                         sender.sendMessage(ChatColor.GREEN + "문화상품권 예시: 1234-1234-1234-1234 또는 1234-1234-1234-123456");
                     } else {
                         try {
+                            sender.sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE
+                                    + "후원을 처리중입니다. 잠시만 기다려주세요...");
                             int amount = dO.redeem(args[0]);
                             RewardUser.reward(sender, thisPlugin, amount);
+
+                            dbConnection.connectionAbstract con; // insert into db.
+                            if(ConfigValues.useMySQL) con = new dbConnection.MysqlCon();
+                            else con = new dbConnection.sqliteCon();
+                            con.donated(sender.getName(), args[0], amount);
+                            con.close();
+
                         } catch (Session.exceptions.redeemFailureException e) {
                             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE +
                                     sender.getName() + " 님이 후원을 실패했습니다. 사유 : " + e.getMessage());
-                            sender.sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE +
-                                    sender.getName() + " 후원을 실패했습니다. 사유 : " + e.getMessage());
+                            sender.sendMessage(ChatColor.RED + "[TorchDonation] " + " 후원을 실패했습니다. 사유 : " + e.getMessage());
                         } catch (Session.exceptions.loginFailureException e) {
                             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE +
                                     " 컬쳐랜드에 로그인할 수 없습니다. 아이디 비밀번호를 확인해주세요.");

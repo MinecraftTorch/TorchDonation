@@ -1,5 +1,13 @@
 package net.gooday2die.torchdonation;
 
+/**
+ * Torch Donation Plugin
+ * Edited Date : 2022-02-09
+ * DO NOT REMOVE MESSAGE PREFIXES OF THIS PLUGIN
+ *
+ * @author Gooday2die @ https://github.com/gooday2die/TorchDonation
+ */
+
 import net.gooday2die.torchdonation.CommandHandler.Redeem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,12 +30,16 @@ public final class TorchDonation extends JavaPlugin {
         ConfigValues.dbPW = config.getString("dbPW");
         ConfigValues.dbName = config.getString("dbName");
         ConfigValues.dbTablePrefix = config.getString("dbTablePrefix");
+        ConfigValues.curPath = this.getDataFolder();
 
         getCommand("redeem").setExecutor(new Redeem(this));
         getCommand("donate").setExecutor(new Redeem(this));
         getCommand("후원").setExecutor(new Redeem(this));
         getCommand("문상").setExecutor(new Redeem(this));
-
+        if(ConfigValues.useMySQL) 
+            Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE + "MySQL 을 사용합니다.");
+        else
+            Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE + "Sqlite 를 사용합니다.");
         Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE + "플러그인이 로드되었습니다.");
     }
 

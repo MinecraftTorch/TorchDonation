@@ -1,6 +1,15 @@
 package net.gooday2die.torchdonation.CulturelandDonation;
 
+/**
+ * Torch Donation Plugin
+ * Edited Date : 2022-02-09
+ * DO NOT REMOVE MESSAGE PREFIXES OF THIS PLUGIN
+ *
+ * @author Gooday2die @ https://github.com/gooday2die/TorchDonation
+ */
+
 import net.gooday2die.torchdonation.ConfigValues;
+import net.gooday2die.torchdonation.dbHandler.dbConnection;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -59,5 +68,6 @@ public class RewardUser {
                 ChatColor.WHITE + user.getName() + " 님에게 후원 보상을 지급했습니다.");
         user.sendMessage(ChatColor.GOLD + "[TorchDonation] " +
                 ChatColor.WHITE + "후원 보상을 지급했습니다.");
+
     }
 }

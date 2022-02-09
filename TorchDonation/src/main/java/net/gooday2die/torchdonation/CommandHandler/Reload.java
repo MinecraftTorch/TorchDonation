@@ -1,5 +1,13 @@
 package net.gooday2die.torchdonation.CommandHandler;
 
+/**
+ * Torch Donation Plugin
+ * Edited Date : 2022-02-09
+ * DO NOT REMOVE MESSAGE PREFIXES OF THIS PLUGIN
+ *
+ * @author Gooday2die @ https://github.com/gooday2die/TorchDonation
+ */
+
 import net.gooday2die.torchdonation.ConfigValues;
 import net.gooday2die.torchdonation.CulturelandDonation.Session;
 import org.bukkit.Bukkit;
