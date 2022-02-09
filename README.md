@@ -9,11 +9,11 @@
 
 # Demo
 플러그인이 동작하는 사진입니다.
-![enter image description here](https://gooday2die.net/torch/1.png)
+![enter image description here](https://raw.githubusercontent.com/gooday2die/TorchDonation/main/pics/1.png)
 
 명령어 `/donate 문화상품권` 을 이용해서 후원하는 사진입니다.
 
-![enter image description here](https://gooday2die.net/torch/3.png)
+![enter image description here](https://raw.githubusercontent.com/gooday2die/TorchDonation/main/pics/3.png)
 후원이 끝나고 보상이 지급되는 사진입니다.
 
 # Features
