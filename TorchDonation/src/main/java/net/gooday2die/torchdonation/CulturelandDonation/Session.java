@@ -1,5 +1,13 @@
 package net.gooday2die.torchdonation.CulturelandDonation;
 
+/**
+ * Torch Donation Plugin
+ * Edited Date : 2022-02-09
+ * DO NOT REMOVE MESSAGE PREFIXES OF THIS PLUGIN
+ *
+ * @author Gooday2die @ https://github.com/gooday2die/TorchDonation
+ */
+
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -59,7 +67,6 @@ public class Session {
             driver.get("https://m.cultureland.co.kr/csh/cshGiftCard.do");
             redeem r = new redeem();
             int amount = r.perform(code);
-            System.out.println(amount);
             return amount;
         } catch (org.openqa.selenium.JavascriptException e){
             throw new exceptions.loginFailureException("LoginFailure");
