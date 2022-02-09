@@ -39,6 +39,7 @@
 2. 서버의 `/plugin` 디렉토리에 다른 플러그인과 동일하게 넣어주시면 됩니다.
 3. 서버를 `restart` 하거나 `reload`(권장되지 않음) 하여서 플러그인을 활성화하시면 됩니다.
 4. `config.yml` 에 해당하는 내용을 수정하시면 됩니다.
+5. 만일 플러그인이 실행되지 않는다면, Chrome이 설치되어있는지 확인해주세요.
 
 # Commands
 다음의 명령어들을 통해  서버에서 후원을 할 수 있습니다.
@@ -103,6 +104,8 @@ dbTablePrefix: ""
 Using chromedriver 97.0.4692.71 (resolved driver for Chrome 97)
 Exporting webdriver.chrome.driver as C:\Users\pc\.cache\selenium\chromedriver\win32\97.0.4692.71\chromedriver.exe
 ```
+- Selenium에서 ChromeDriver를 사용합니다. 서버 머신에 Chrome이 반드시 깔려있어야 이 플러그인을 실행할 수 있습니다.
+- 
 # Special Thanks To
 ### 플러그인을 개발하며 사용된 라이브러리입니다
 - Selenium @ https://github.com/SeleniumHQ/selenium
