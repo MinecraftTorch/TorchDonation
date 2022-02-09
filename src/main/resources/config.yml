@@ -5,9 +5,9 @@
 # 사용시 라이센스 지우지 마시기 바랍니다.
 
 # 컬쳐랜드 ID
-username: "null";
+username: "null"
 # 컬쳐랜드 비밀번호
-password: "null";
+password: "null"
 # 후원 성공시 실행할 명령어
 # 명령어가 여러개일 경우 ## 로 구분합니다
 # Placeholder가 있습니다.
@@ -17,17 +17,17 @@ password: "null";
 # -> say 후원자 이름
 # -> say 후원 금액
 # 위 두개의 명령어 실행
-rewardCommands: "null";
+rewardCommands: "null"
 # MYSQL DB를 사용할지 여부입니다. DB가 뭔지 모르시면 false 로 놔주세요.
 # 만약 MYSQL DB를 사용하지 않는다면 SQLITE3 으로 저장합니다
-useMySQL: false;
+useMySQL: false
 # MYSQL DB 의 IP 입니다
-dbIP: "null";
+dbIP: "null"
 # MYSQL DB 의 username 입니다
-dbID: "null";
+dbID: "null"
 # MYSQL DB 의 비밀번호입니다
-dbPW: "null";
+dbPW: "null"
 # MYSQL DB 의 DB 이름입니다
-dbName: "null";
+dbName: "null"
 # MYSQL DB 에서 사용할 prefix 이름입니다.
-dbTablePrefix: "null";
+dbTablePrefix: "null"

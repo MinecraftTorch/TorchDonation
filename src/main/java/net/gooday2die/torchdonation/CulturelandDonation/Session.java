@@ -8,6 +8,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Session {
     static ChromeDriver driver;
@@ -15,8 +17,14 @@ public class Session {
     public ChromeDriver generateDriver() {
         WebDriverManager.chromedriver().setup();
 
+        Logger.getLogger("org.openqa.selenium.remote").setLevel(Level.OFF);
+        System.setProperty("webdriver.chrome.silentLogging", "true");
+        System.setProperty("webdriver.chrome.verboseLogging", "false");
+        System.setProperty("webdriver.chrome.silentOutput", "true");
+
         ChromeOptions options = new ChromeOptions();
         // Add some arguments that is headless but pretends to be a real web browser
+        options.addArguments("--log-level=3");
         options.addArguments("--disable-gpu");
         options.addArguments("--no-sandbox"); // Bypass OS security model
         options.addArguments("--disable-dev-shm-usage"); // Bypass OS security model
