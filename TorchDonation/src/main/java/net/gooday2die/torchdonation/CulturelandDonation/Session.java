@@ -368,7 +368,7 @@ public class Session {
             try { // weird case, there are some case where 'done' is missing.
                 js.executeScript("mtk.done(event, this);");
             } catch (JavascriptException e){ // if the script is not executable, just click the login button
-                driver.findElement(By.xpath("//*[@id=\"btnLogin\"]")).click();
+                driver.findElement(By.xpath("/html/body/div[1]/div[2]/div[1]/form/fieldset/input")).click();
             }
         }
     }
