@@ -10,6 +10,7 @@ package net.gooday2die.torchdonation.CulturelandDonation;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -69,6 +70,7 @@ public class Session {
             int amount = r.perform(code);
             return amount;
         } catch (org.openqa.selenium.JavascriptException e){
+            e.printStackTrace();
             throw new exceptions.loginFailureException("LoginFailure");
         }
     }
@@ -357,13 +359,17 @@ public class Session {
          * A method that enters last 4 or 6 digits using using generateMap method
          * @param lastDigits the last digits to input
          */
-        private void enterLastDigits(String lastDigits){
+        private void enterLastDigits(String lastDigits) {
             Map<Character, String> map = generateMap();
-            for(int i = 0 ; i < lastDigits.length() ; i++){
+            for (int i = 0; i < lastDigits.length(); i++) {
                 String curCommand = map.get(lastDigits.charAt(i));
                 js.executeScript(curCommand);
             }
-            js.executeScript("mtk.done(event, this);");
+            try { // weird case, there are some case where 'done' is missing.
+                js.executeScript("mtk.done(event, this);");
+            } catch (JavascriptException e){ // if the script is not executable, just click the login button
+                driver.findElement(By.xpath("//*[@id=\"btnLogin\"]")).click();
+            }
         }
     }
     public static class exceptions{
