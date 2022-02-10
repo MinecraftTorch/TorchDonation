@@ -22,6 +22,7 @@
 - 모든 기능이 Asynchronous 하게 실행됩니다.
 - 문화상품권 후원에 따라서 보상을 서버 관리자 마음대로 지정할 수 있습니다. 
 - MySQL 서버를 사용하거나 SQLite 파일을 사용하는 것을 선택할 수 있습니다.
+- 후원을 Queue 방식으로 처리하여 여러개의 후원을 순차적으로 자동으로 처리합니다.
 
 # Future Features
 ### 이미 다 개발된 사항이지만 이 플러그인으로 옮겨오지 않은 내용들입니다.
@@ -48,9 +49,16 @@
     /문상 1234-1234-1234-1234
     /donate 1234-1234-1234-1234
     /redeem 1234-1234-1234-1234
+다음의 명령어로 서버 config.yml 을 reload 할 수 있습니다.
+
+    /treload
+
+
 # Permissions
 다음의 Permission Node 를 통해 이 플러그인을 이용할 수 있습니다.
    - `TorchDonation.donate` : 위의 후원 명령어를 사용할 권한입니다.
+   - `TorchDonation.reload` : 위의 `treload` 명령어를 사용할 권한입니다.
+
 
 # Config.yml
 ### Config.yml 예시입니다. 
