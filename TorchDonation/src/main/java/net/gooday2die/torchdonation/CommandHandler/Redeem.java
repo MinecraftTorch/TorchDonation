@@ -54,10 +54,6 @@ public class Redeem implements CommandExecutor {
              */
             @Override
             public void run() {
-                Session dO = new Session();
-                dO.generateDriver();
-                dO.login(ConfigValues.username, ConfigValues.password);
-
                 if (args.length == 1) {  // Check there is one argument.
                     String giftcardFormat = "^\\d{4}-\\d{4}-\\d{4}-\\d{4,6}$";  // regex pattern for giftcard
 
@@ -66,27 +62,12 @@ public class Redeem implements CommandExecutor {
                                 sender.getName() + " 올바르지 않은 문화상품권 형식입니다.");
                         sender.sendMessage(ChatColor.GREEN + "문화상품권 예시: 1234-1234-1234-1234 또는 1234-1234-1234-123456");
                     } else {
-                        try {
-                            sender.sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE
-                                    + "후원을 처리중입니다. 잠시만 기다려주세요...");
-                            int amount = dO.redeem(args[0]);
-                            RewardUser.reward(sender, thisPlugin, amount);
-
-                            dbConnection.connectionAbstract con; // insert into db.
-                            if(ConfigValues.useMySQL) con = new dbConnection.MysqlCon();
-                            else con = new dbConnection.sqliteCon();
-                            con.donated(sender.getName(), args[0], amount);
-                            con.close();
-
-                        } catch (Session.exceptions.redeemFailureException e) {
-                            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE +
-                                    sender.getName() + " 님이 후원을 실패했습니다. 사유 : " + e.getMessage());
-                            sender.sendMessage(ChatColor.RED + "[TorchDonation] " + " 후원을 실패했습니다. 사유 : " + e.getMessage());
-                        } catch (Session.exceptions.loginFailureException e) {
-                            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE +
-                                    " 컬쳐랜드에 로그인할 수 없습니다. 아이디 비밀번호를 확인해주세요.");
-                            sender.sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE +
-                                    " 문화상품권 충전하며 에러가 생겼습니다. 서버 관리자에게 말씀해주세요.");
+                        sender.sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE
+                                + "후원을 처리중입니다. 잠시만 기다려주세요... / 대기열 순위 " + ConfigValues.queueSize);
+                        UserDonation newUserdonation = new UserDonation(sender, args[0]);
+                        synchronized (ConfigValues.sessionQueue) {
+                            ConfigValues.sessionQueue.enqueue(newUserdonation);
+                            ConfigValues.sessionQueue.run();
                         }
                     }
                 }

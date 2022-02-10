@@ -141,8 +141,6 @@ public class dbConnection {
          */
         public sqliteCon() {
             File dataFolder = new File(ConfigValues.curPath, "data.db");
-            Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[TorchDonation] " +
-                    ChatColor.WHITE + "SQLITE DB를 사용중입니다.");
             if (!dataFolder.exists()) { // if the file does not exist, generate one and do init.
                 try {
                     dataFolder.createNewFile();
