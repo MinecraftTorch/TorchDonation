@@ -73,6 +73,7 @@ public class SessionQueue {
                     sender.getName() + " 님이 후원을 실패했습니다. 사유 : " + e.getMessage());
             sender.sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE + "후원을 실패했습니다. 사유 : " + e.getMessage());
         } catch (Session.exceptions.loginFailureException e) {
+            e.printStackTrace();
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE +
                     " 컬쳐랜드에 로그인할 수 없습니다. 아이디 비밀번호를 확인해주세요.");
             sender.sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE +
