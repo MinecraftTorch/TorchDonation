@@ -8,6 +8,9 @@ package net.gooday2die.torchdonation;
  * @author Gooday2die @ https://github.com/gooday2die/TorchDonation
  */
 
+import net.gooday2die.torchdonation.CommandHandler.SessionQueue;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import java.io.File;
 
 public class ConfigValues {
@@ -21,4 +24,7 @@ public class ConfigValues {
     public static String dbName = null;
     public static String dbTablePrefix = null;
     public static File curPath = null;
+    public static JavaPlugin thisPlugin = null;
+    public static SessionQueue sessionQueue = null;
+    public static int queueSize = 0;
 }

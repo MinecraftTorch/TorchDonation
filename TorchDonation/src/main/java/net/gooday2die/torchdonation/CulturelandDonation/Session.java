@@ -76,7 +76,7 @@ public class Session {
     /**
      * A method that closes and ends current driver session.
      */
-    void end(){
+    public void end(){
         driver.quit();
     }
 

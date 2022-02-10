@@ -9,6 +9,8 @@ package net.gooday2die.torchdonation;
  */
 
 import net.gooday2die.torchdonation.CommandHandler.Redeem;
+import net.gooday2die.torchdonation.CommandHandler.Reload;
+import net.gooday2die.torchdonation.CommandHandler.SessionQueue;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -31,12 +33,16 @@ public final class TorchDonation extends JavaPlugin {
         ConfigValues.dbName = config.getString("dbName");
         ConfigValues.dbTablePrefix = config.getString("dbTablePrefix");
         ConfigValues.curPath = this.getDataFolder();
+        ConfigValues.thisPlugin = this;
+        ConfigValues.sessionQueue = new SessionQueue();
 
         getCommand("redeem").setExecutor(new Redeem(this));
         getCommand("donate").setExecutor(new Redeem(this));
         getCommand("후원").setExecutor(new Redeem(this));
         getCommand("문상").setExecutor(new Redeem(this));
-        if(ConfigValues.useMySQL) 
+        getCommand("treload").setExecutor(new Reload(this));
+
+        if(ConfigValues.useMySQL)
             Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE + "MySQL 을 사용합니다.");
         else
             Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE + "Sqlite 를 사용합니다.");
