@@ -26,3 +26,8 @@ commands:
     description: 문화상품권 코드를 후원합니다
     usage: /<command> 문화상품권 코드
     permission: TorchDonation.donate
+
+  treload:
+    description: TorchDonation의 Config.yml 을 reload 합니다
+    usage: /<command>
+    permission: TorchDonation.reload
