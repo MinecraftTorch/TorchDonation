@@ -261,8 +261,9 @@ public class Session {
                     js.executeScript(command);
                 }
             }
-            js.executeScript("mtk.done(event, this);");
-            driver.findElement(By.xpath( "//*[@id=\"btnLogin\"]")).click();
+            //js.executeScript("mtk.done(event, this);");
+            driver.findElement(By.xpath("/html/body/div[1]/div[2]/div[1]/form/fieldset/span[1]/input")).click();
+            driver.findElement(By.xpath("/html/body/div[1]/div[2]/div[1]/form/fieldset/input")).click();
         }
     }
 
@@ -280,7 +281,6 @@ public class Session {
          */
         public int perform(String code) throws exceptions.redeemFailureException {
             enterKeys(code);
-            driver.findElement(By.xpath("//*[@id=\"btnCshFrom\"]")).click();
             String amountCharged = "";
             try{
                 amountCharged = driver.findElement(By.xpath("//*[@id=\"wrap\"]/div[3]/section/dl/dd")).getText();
@@ -365,11 +365,11 @@ public class Session {
                 String curCommand = map.get(lastDigits.charAt(i));
                 js.executeScript(curCommand);
             }
-            try { // weird case, there are some case where 'done' is missing.
-                js.executeScript("mtk.done(event, this);");
-            } catch (JavascriptException e){ // if the script is not executable, just click the login button
-                driver.findElement(By.xpath("/html/body/div[1]/div[2]/div[1]/form/fieldset/input")).click();
-            }
+            //try { // weird case, there are some case where 'done' is missing.
+            //    js.executeScript("mtk.done(event, this);");
+            //} catch (JavascriptException e){ // if the script is not executable, just click the login button
+                driver.findElement(By.xpath("/html/body/div[1]/div[6]/form/a")).click();
+            //}
         }
     }
     public static class exceptions{
