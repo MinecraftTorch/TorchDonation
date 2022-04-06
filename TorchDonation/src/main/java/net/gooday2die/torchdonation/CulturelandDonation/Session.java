@@ -280,20 +280,13 @@ public class Session {
         public int perform(String code) throws exceptions.redeemFailureException {
             enterKeys(code);
             String amountCharged = "";
-            /**
-            try{
-                amountCharged = driver.findElement(By.xpath("//*[@id=\"wrap\"]/div[3]/section/dl/dd")).getText();
-            } catch (Exception e){
-                amountCharged = driver.findElement(By.xpath("//*[@id=\"wrap\"]/div[1]/section/dl/dd")).getText();
-            }
-            */
 
-            try{
-                WebElement result = driver.findElement(By.xpath("//*[contains(text(), '충전금액')]"));
-                System.out.println(result.getText());
-                System.out.println(result);
-            } catch (Exception e){
-                e.printStackTrace();
+            for (int i = 0 ; i < 10 ; i++) {
+                try {
+                    amountCharged = driver.findElement(By.xpath("//*[@id=\"wrap\"]/div[" + i + "]/section/dl/dd")).getText();
+                } catch (Exception ignored){
+                }
+                if (amountCharged.length() != 0) break;
             }
 
             amountCharged = amountCharged.replace("원", "");
