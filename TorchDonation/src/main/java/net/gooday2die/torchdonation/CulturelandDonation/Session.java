@@ -9,9 +9,7 @@ package net.gooday2die.torchdonation.CulturelandDonation;
  */
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptException;
-import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -282,10 +280,20 @@ public class Session {
         public int perform(String code) throws exceptions.redeemFailureException {
             enterKeys(code);
             String amountCharged = "";
+            /**
             try{
                 amountCharged = driver.findElement(By.xpath("//*[@id=\"wrap\"]/div[3]/section/dl/dd")).getText();
             } catch (Exception e){
                 amountCharged = driver.findElement(By.xpath("//*[@id=\"wrap\"]/div[1]/section/dl/dd")).getText();
+            }
+            */
+
+            try{
+                WebElement result = driver.findElement(By.xpath("//*[contains(text(), '충전금액')]"));
+                System.out.println(result.getText());
+                System.out.println(result);
+            } catch (Exception e){
+                e.printStackTrace();
             }
 
             amountCharged = amountCharged.replace("원", "");
