@@ -284,7 +284,7 @@ public class Session {
             for (int i = 0 ; i < 10 ; i++) {
                 try {
                     amountCharged = driver.findElement(By.xpath("//*[@id=\"wrap\"]/div[" + i + "]/section/dl/dd")).getText();
-                } catch (Exception ignored){
+                } catch (NoSuchElementException ignored){
                 }
                 if (amountCharged.length() != 0) break;
             }
@@ -292,16 +292,14 @@ public class Session {
             amountCharged = amountCharged.replace("원", "");
             amountCharged = amountCharged.replace(",", "");
 
-            if (amountCharged.equals("0")){
-                String errorMessage;
+            String errorMessage = "";
+            for (int i = 0 ; i < 10 ; i++){
                 try{
-                    errorMessage = driver.findElement(By.xpath("//*[@id=\"wrap\"]/div[3]/section/div/table/tbody/tr/td[3]/b")).getText();
-                } catch (NoSuchElementException e){
-                    errorMessage = driver.findElement(By.xpath("//*[@id=\"wrap\"]/div[1]/section/div/table/tbody/tr/td[3]/b")).getText();
+                    errorMessage = driver.findElement(By.xpath("//*[@id=\"wrap\"]/div[" + i + "]/section/div/table/tbody/tr/td[3]/b")).getText();
+                } catch (NoSuchElementException ignored){
                 }
-                throw new exceptions.redeemFailureException(errorMessage);
+                if (!errorMessage.isEmpty()) throw new exceptions.redeemFailureException(errorMessage);
             }
-
             return Integer.parseInt(amountCharged);
         }
 
