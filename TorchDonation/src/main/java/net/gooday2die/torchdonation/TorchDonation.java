@@ -16,6 +16,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.json.JSONException;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -37,15 +38,15 @@ public final class TorchDonation extends JavaPlugin {
     /**
      * A private method that stores config.yml and cookies.json if they exist.
      */
-   private void saveFiles() {
+    private void saveFiles() {
        saveDefaultConfig(); // Save default config if it does not exist.
        Path cookiesPath = Paths.get(this.getDataFolder().getAbsolutePath(), "cookies.json");
        if (!new File(cookiesPath.toString()).exists()) {
            saveResource("cookies.json", false);
             Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE + "cookies.json" +
-                    "이 존재하지 않습니다. 사용 방법은 홈페이지를 확인해주세요!");
+                    "이 존재하지 않습니다. 사용 방법은 https://github.com/MinecraftTorch/TorchDonation/blob/main/Cookies.md 를 확인해주세요!");
        }
-   }
+    }
 
     @Override
     public void onEnable() {
@@ -59,6 +60,7 @@ public final class TorchDonation extends JavaPlugin {
             Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE + "MySQL 을 사용합니다.");
         else
             Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE + "Sqlite 를 사용합니다.");
+
         Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE + "플러그인이 로드되었습니다.");
     }
 

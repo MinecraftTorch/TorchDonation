@@ -66,7 +66,7 @@ public class SessionQueue {
 
         try { // when it works properly
             int amount = donationSession.redeem(code);
-            RewardUser.reward(sender, ConfigValues.thisPlugin, amount);
+            //RewardUser.reward(sender, ConfigValues.thisPlugin, amount);
 
             dbConnection.connectionAbstract con; // insert into db.
             if (ConfigValues.useMySQL) con = new dbConnection.MysqlCon();

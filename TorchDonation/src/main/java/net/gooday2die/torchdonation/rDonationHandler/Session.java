@@ -42,6 +42,4 @@ public class Session {
     public ChromeDriver getDriver() {
         return driver;
     }
-
-    public
 }
