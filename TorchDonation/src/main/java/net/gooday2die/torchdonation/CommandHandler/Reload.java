@@ -8,6 +8,7 @@ package net.gooday2die.torchdonation.CommandHandler;
  * @author Gooday2die @ https://github.com/gooday2die/TorchDonation
  */
 
+import com.github.dockerjava.api.model.Config;
 import net.gooday2die.torchdonation.ConfigValues;
 import net.gooday2die.torchdonation.CulturelandDonation.Session;
 import org.bukkit.Bukkit;
@@ -35,7 +36,7 @@ public class Reload implements CommandExecutor {
 
     /**
      * Override this command using onCommand.
-     * Reload config using Asynchronous features.
+     * This will reload config.yml and cookies.json
      * @param sender the command sender
      * @param command the command
      * @param label the label
@@ -44,22 +45,7 @@ public class Reload implements CommandExecutor {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                FileConfiguration config = thisPlugin.getConfig();  // get config results
-
-                ConfigValues.username = config.getString("username");
-                ConfigValues.password = config.getString("password");
-                ConfigValues.rewardCommands = config.getString("rewardCommands");
-                ConfigValues.useMySQL = config.getBoolean("useMySQL");
-                ConfigValues.dbIP = config.getString("dbIP");
-                ConfigValues.dbID = config.getString("dbID");
-                ConfigValues.dbPW = config.getString("dbPW");
-                ConfigValues.dbName = config.getString("dbName");
-                ConfigValues.dbTablePrefix = config.getString("dbTablePrefix");
-            }
-        }.runTaskAsynchronously(thisPlugin);
+        ConfigValues.loadConfig();
         return true;
     }
 }
