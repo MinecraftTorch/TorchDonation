@@ -12,6 +12,7 @@ import com.github.dockerjava.api.model.Config;
 import net.gooday2die.torchdonation.CommandHandler.Redeem;
 import net.gooday2die.torchdonation.CommandHandler.Reload;
 import net.gooday2die.torchdonation.CommandHandler.SessionQueue;
+import net.gooday2die.torchdonation.rDonationHandler.Session;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -62,6 +63,14 @@ public final class TorchDonation extends JavaPlugin {
             Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE + "Sqlite 를 사용합니다.");
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE + "플러그인이 로드되었습니다.");
+
+        Session session = new Session();
+
+        try {
+            session.login();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
