@@ -8,6 +8,7 @@ package net.gooday2die.torchdonation;
  * @author Gooday2die @ https://github.com/gooday2die/TorchDonation
  */
 
+import com.github.dockerjava.api.model.Config;
 import net.gooday2die.torchdonation.CommandHandler.Redeem;
 import net.gooday2die.torchdonation.CommandHandler.Reload;
 import net.gooday2die.torchdonation.CommandHandler.SessionQueue;
@@ -16,31 +17,43 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public final class TorchDonation extends JavaPlugin {
 
-    @Override
-    public void onEnable() {
-        saveDefaultConfig(); // save default config if it does not exist.
-        FileConfiguration config = this.getConfig();  // get config results
-
-        ConfigValues.username = config.getString("username");
-        ConfigValues.password = config.getString("password");
-        ConfigValues.rewardCommands = config.getString("rewardCommands");
-        ConfigValues.useMySQL = config.getBoolean("useMySQL");
-        ConfigValues.dbIP = config.getString("dbIP");
-        ConfigValues.dbID = config.getString("dbID");
-        ConfigValues.dbPW = config.getString("dbPW");
-        ConfigValues.dbName = config.getString("dbName");
-        ConfigValues.dbTablePrefix = config.getString("dbTablePrefix");
-        ConfigValues.curPath = this.getDataFolder();
-        ConfigValues.thisPlugin = this;
-        ConfigValues.sessionQueue = new SessionQueue();
-
+    /**
+     * A private method that registers commands to Bukkit (or Spigot or Paper) API.
+     */
+    private void registerCommands() {
         getCommand("redeem").setExecutor(new Redeem(this));
         getCommand("donate").setExecutor(new Redeem(this));
         getCommand("후원").setExecutor(new Redeem(this));
         getCommand("문상").setExecutor(new Redeem(this));
         getCommand("treload").setExecutor(new Reload(this));
+    }
+
+    /**
+     * A private method that stores config.yml and cookies.json if they exist.
+     */
+   private void saveFiles() {
+       saveDefaultConfig(); // Save default config if it does not exist.
+       Path cookiesPath = Paths.get(this.getDataFolder().getAbsolutePath(), "cookies.json");
+       if (!new File(cookiesPath.toString()).exists()) {
+           saveResource("cookies.json", false);
+            Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE + "cookies.json" +
+                    "이 존재하지 않습니다. 사용 방법은 홈페이지를 확인해주세요!");
+       }
+   }
+
+    @Override
+    public void onEnable() {
+        this.registerCommands();
+        this.saveFiles();
+
+        ConfigValues.thisPlugin = this;
+        ConfigValues.loadConfig();
 
         if(ConfigValues.useMySQL)
             Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE + "MySQL 을 사용합니다.");
