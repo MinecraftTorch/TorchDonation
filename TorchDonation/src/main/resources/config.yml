@@ -20,6 +20,11 @@ rewardCommands:
   "lp user %user% group add VIP",
   "coin give %user% %amount%"
   ]
+# 후원시 서버 전체에 알림을 할지 말지에 대한 여부입니다.
+broadcastDonation: true
+
+
+# DB 설정
 # MYSQL DB를 사용할지 여부입니다. DB가 뭔지 모르시면 false 로 놔주세요.
 # 만약 MYSQL DB를 사용하지 않는다면 SQLITE3 으로 저장합니다
 useMySQL: false

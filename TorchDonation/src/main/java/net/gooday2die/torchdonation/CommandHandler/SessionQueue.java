@@ -1,6 +1,7 @@
 package net.gooday2die.torchdonation.CommandHandler;
 
 import net.gooday2die.torchdonation.ConfigValues;
+import net.gooday2die.torchdonation.CulturelandDonation.DonationHandler;
 import net.gooday2die.torchdonation.CulturelandDonation.RewardUser;
 import net.gooday2die.torchdonation.CulturelandDonation.Session;
 import net.gooday2die.torchdonation.dbHandler.dbConnection;
@@ -26,7 +27,12 @@ import java.util.concurrent.TimeUnit;
  * A class for managing donation sessions by queue
  */
 public class SessionQueue {
+    private DonationHandler donationHandler;
     Queue<UserDonation> q = new LinkedList<>(); // a queue to store UserDonation object
+
+    public SessionQueue () {
+
+    }
 
     /**
      * A method that enqueues UserDonation object into queue.
