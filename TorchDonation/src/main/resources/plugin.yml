@@ -28,6 +28,6 @@ commands:
     permission: TorchDonation.donate
 
   treload:
-    description: TorchDonation의 Config.yml 을 reload 합니다
+    description: TorchDonation 의 Config.yml 을 reload 합니다
     usage: /<command>
     permission: TorchDonation.reload
