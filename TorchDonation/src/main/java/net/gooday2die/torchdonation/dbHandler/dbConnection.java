@@ -1,6 +1,7 @@
 package net.gooday2die.torchdonation.dbHandler;
 
 import net.gooday2die.torchdonation.ConfigValues;
+import net.gooday2die.torchdonation.rDonationHandler.UserDonation;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
@@ -80,6 +81,14 @@ public class dbConnection {
                 total = -1;
             }
             return total;
+        }
+
+        /**
+         * A wrapper method for adding record to DB.
+         * @param userDonation
+         */
+        public void record(UserDonation userDonation) {
+            this.donated(userDonation.player.getDisplayName(), userDonation.giftCode, userDonation.amount);
         }
 
         /**

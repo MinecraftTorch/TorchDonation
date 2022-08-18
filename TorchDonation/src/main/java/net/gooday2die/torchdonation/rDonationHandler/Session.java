@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 
 public class Session {
     private final ChromeDriver driver;
-    private JavascriptExecutor js;
     private boolean isLoggedIn = false;
 
     /**
@@ -35,7 +34,7 @@ public class Session {
         options.addArguments("--disable-gpu");
         options.addArguments("--no-sandbox"); // Bypass OS security model
         options.addArguments("--disable-dev-shm-usage"); // Bypass OS security model
-        // options.addArguments("headless");
+        options.addArguments("headless");
         options.addArguments("\"user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "+
                 "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36\"");
 
@@ -94,5 +93,17 @@ public class Session {
             isLoggedIn = true;
     }
 
+    /**
+     * A method that closes current session.
+     * Close to exiting chrome window.
+     */
+    public void close() {
+        driver.close();
+        driver.quit();
+    }
+
+    /**
+     * A public static class for Login failures.
+     */
     public static class LoginFailureException extends RuntimeException {}
 }
