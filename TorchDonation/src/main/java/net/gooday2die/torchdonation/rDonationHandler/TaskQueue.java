@@ -1,7 +1,6 @@
 package net.gooday2die.torchdonation.rDonationHandler;
 
 import net.gooday2die.torchdonation.ConfigValues;
-import net.gooday2die.torchdonation.CulturelandDonation.RewardUser;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -36,17 +35,8 @@ public class TaskQueue {
         while (keepRunning.get()) {
             if (queue.isEmpty()) assert true;
             else {
-                new BukkitRunnable() {
-                    /**
-                     * An overridden method for method run.
-                     * Since this might be a time consuming process, process it in async thread.
-                     */
-                    @Override
-                    public void run() {
-                        UserDonation curDonation = dequeue();
-                        processDonation(curDonation);
-                    }
-                }.runTaskAsynchronously(ConfigValues.thisPlugin);
+                UserDonation curDonation = dequeue();
+                processDonation(curDonation);
             }
         }
     }

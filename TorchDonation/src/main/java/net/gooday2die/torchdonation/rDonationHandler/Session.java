@@ -77,7 +77,6 @@ public class Session {
 
                 // Generate Cookie instance and load values to webdriver.
                 Cookie cookie = new Cookie(name, value, domain, path, expirationDate, isSecure, isHTTPOnly);
-                System.out.println(cookie);
                 driver.manage().addCookie(cookie);
             }
         }

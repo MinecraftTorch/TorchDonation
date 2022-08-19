@@ -45,7 +45,7 @@ public class Redeem implements CommandExecutor {
 
                     if (!(Pattern.matches(giftcardFormat, args[0]))) { // If it does not match regex.
                         sender.sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE +
-                                sender.getName() + " 올바르지 않은 문화상품권 형식입니다.");
+                                " 올바르지 않은 문화상품권 형식입니다.");
                         sender.sendMessage(ChatColor.GREEN + "문화상품권 예시: 1234-1234-1234-1234 또는 1234-1234-1234-123456");
                     } else {
                         sender.sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE
@@ -56,6 +56,9 @@ public class Redeem implements CommandExecutor {
                             ConfigValues.taskQueue.enqueue(userDonation);
                         }
                     }
+                } else {
+                    sender.sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE +
+                            " 사용법 : " + ChatColor.GREEN + "/donate 1234-1234-1234-1234");
                 }
             }
         }.runTaskAsynchronously(ConfigValues.thisPlugin);
