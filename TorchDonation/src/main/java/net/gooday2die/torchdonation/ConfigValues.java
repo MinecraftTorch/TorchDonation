@@ -9,9 +9,12 @@ package net.gooday2die.torchdonation;
  */
 
 import com.github.dockerjava.api.model.Config;
+import com.github.dockerjava.api.model.Task;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.gooday2die.torchdonation.CommandHandler.SessionQueue;
+import net.gooday2die.torchdonation.rDonationHandler.Session;
+import net.gooday2die.torchdonation.rDonationHandler.TaskQueue;
 import org.apache.commons.io.IOUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -43,6 +46,7 @@ public class ConfigValues {
     public static File curPath = null;
     public static JavaPlugin thisPlugin = null;
     public static SessionQueue sessionQueue = null;
+    public static TaskQueue taskQueue = null;
     public static int queueSize = 0;
     public static boolean broadcastDonation;
     public static JSONArray cookies;
@@ -63,9 +67,18 @@ public class ConfigValues {
 
         try { // Try loading cookies.json.
             ConfigValues.loadJson();
-        } catch (Exception e) { // If that failed print stacktrace and send error message.
+        } catch (Exception e) { // If that failed print stacktrace and send error message also disable plugin.
             e.printStackTrace();
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE + "cookies.json 파일을 불러올 수 없습니다.");
+            Bukkit.getPluginManager().disablePlugin(thisPlugin);
+        }
+
+        try { // Try logging into Cultureland website.
+            generateQueue();
+        } catch (Session.LoginFailureException e) { // If that failed, disable plugin.
+            e.printStackTrace();
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE + "컬쳐랜드 웹사이트에 로그인할 수 없습니다.");
+            Bukkit.getPluginManager().disablePlugin(thisPlugin);
         }
     }
 
@@ -85,5 +98,21 @@ public class ConfigValues {
             // Parse JSON String.
             ConfigValues.cookies = new JSONArray(jsonTxt);
         }
+    }
+
+    /**
+     * A private static method that generates task queue.
+     * @throws Session.LoginFailureException When login failed.
+     */
+    private static void generateQueue() throws Session.LoginFailureException {
+        Session session = new Session();
+
+        try {
+            session.login();
+        } catch (Session.LoginFailureException | JSONException e) {
+            throw new Session.LoginFailureException();
+        }
+
+        taskQueue = new TaskQueue(session);
     }
 }

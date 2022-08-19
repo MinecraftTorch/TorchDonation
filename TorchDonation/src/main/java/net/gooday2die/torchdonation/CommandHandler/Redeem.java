@@ -9,10 +9,7 @@ package net.gooday2die.torchdonation.CommandHandler;
  */
 
 import net.gooday2die.torchdonation.ConfigValues;
-import net.gooday2die.torchdonation.CulturelandDonation.RewardUser;
-import net.gooday2die.torchdonation.CulturelandDonation.Session;
-import net.gooday2die.torchdonation.dbHandler.dbConnection;
-import org.bukkit.Bukkit;
+import net.gooday2die.torchdonation.rDonationHandler.UserDonation;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,16 +24,6 @@ import java.util.regex.Pattern;
  * A class for redeeming giftcards
  */
 public class Redeem implements CommandExecutor {
-    JavaPlugin thisPlugin;
-
-    /**
-     * A constructor method for this class
-     * @param plugin the plugin object
-     */
-    public Redeem(JavaPlugin plugin){
-        thisPlugin = plugin;
-    }
-
     /**
      * Override this command using onCommand.
      * Redeem Giftcard using Asynchronous features.
@@ -64,15 +51,15 @@ public class Redeem implements CommandExecutor {
                     } else {
                         sender.sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE
                                 + "후원을 처리중입니다. 잠시만 기다려주세요... / 대기열 순위 " + ConfigValues.queueSize);
-                        UserDonation newUserdonation = new UserDonation(sender, args[0]);
-                        synchronized (ConfigValues.sessionQueue) {
-                            ConfigValues.sessionQueue.enqueue(newUserdonation);
-                            ConfigValues.sessionQueue.run();
+                        UserDonation userDonation = new UserDonation(sender, args[0]);
+
+                        synchronized (ConfigValues.taskQueue) {
+                            ConfigValues.taskQueue.enqueue(userDonation);
                         }
                     }
                 }
             }
-        }.runTaskAsynchronously(thisPlugin);
+        }.runTaskAsynchronously(ConfigValues.thisPlugin);
         return true;
     }
 }
