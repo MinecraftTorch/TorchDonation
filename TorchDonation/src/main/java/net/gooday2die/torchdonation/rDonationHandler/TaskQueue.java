@@ -1,7 +1,7 @@
 package net.gooday2die.torchdonation.rDonationHandler;
 
-import net.gooday2die.torchdonation.dbHandler.dbConnection;
 import net.gooday2die.torchdonation.ConfigValues;
+import net.gooday2die.torchdonation.CulturelandDonation.RewardUser;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -27,11 +27,26 @@ public class TaskQueue {
         }.runTaskAsynchronously(ConfigValues.thisPlugin);
     }
 
+    /**
+     * A private method that is for background process for queues.
+     * Since there might be multiple users trying to donate at the same time,
+     * this provides a queue for donation without messing them around.
+     */
     private void backgroundProcess() {
         while (keepRunning.get()) {
             if (queue.isEmpty()) assert true;
             else {
-                UserDonation curDonation = this.dequeue();
+                new BukkitRunnable() {
+                    /**
+                     * An overridden method for method run.
+                     * Since this might be a time consuming process, process it in async thread.
+                     */
+                    @Override
+                    public void run() {
+                        UserDonation curDonation = dequeue();
+                        processDonation(curDonation);
+                    }
+                }.runTaskAsynchronously(ConfigValues.thisPlugin);
             }
         }
     }
@@ -44,22 +59,15 @@ public class TaskQueue {
         DonationHelper.Redeem redeem = new DonationHelper.Redeem(session, userDonation.giftCodeParts);
         CommandSender sender = userDonation.sender;
 
-        try { // when it works properly
-            int amount = redeem.perform();
-            //RewardUser.reward(sender, ConfigValues.thisPlugin, amount);
-
-            dbConnection.connectionAbstract con; // insert into db.
-            // TODO : add polymorphism to DB.
-            if (ConfigValues.useMySQL) con = new dbConnection.MysqlCon();
-            else con = new dbConnection.sqliteCon();
-            ;
-            con.close();
-
+        try { // When it works properly
+            int amount = redeem.perform(); // Try redeeming code.
+            DonationHelper.reward(sender, amount); // Reward user.
+            ConfigValues.db.recordDonation(userDonation); // Record donation to DB.
         } catch (DonationHelper.redeemFailureException e) { // with exceptions
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE +
                     sender.getName() + " 님이 후원을 실패했습니다. 사유 : " + e.getMessage());
             sender.sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE + "후원을 실패했습니다. 사유 : " + e.getMessage());
-        } catch (net.gooday2die.torchdonation.CulturelandDonation.Session.exceptions.loginFailureException e) {
+        } catch (Session.LoginFailureException e) {
             e.printStackTrace();
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE +
                     " 컬쳐랜드에 로그인할 수 없습니다. 아이디 비밀번호를 확인해주세요.");
