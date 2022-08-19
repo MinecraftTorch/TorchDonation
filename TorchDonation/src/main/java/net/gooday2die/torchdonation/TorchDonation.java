@@ -8,14 +8,11 @@ package net.gooday2die.torchdonation;
  * @author Gooday2die @ https://github.com/gooday2die/TorchDonation
  */
 
-import com.github.dockerjava.api.model.Config;
 import net.gooday2die.torchdonation.CommandHandler.Redeem;
 import net.gooday2die.torchdonation.CommandHandler.Reload;
-import net.gooday2die.torchdonation.CommandHandler.SessionQueue;
 import net.gooday2die.torchdonation.rDonationHandler.Session;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.JSONException;
 
@@ -29,11 +26,11 @@ public final class TorchDonation extends JavaPlugin {
      * A private method that registers commands to Bukkit (or Spigot or Paper) API.
      */
     private void registerCommands() {
-        getCommand("redeem").setExecutor(new Redeem(this));
-        getCommand("donate").setExecutor(new Redeem(this));
-        getCommand("후원").setExecutor(new Redeem(this));
-        getCommand("문상").setExecutor(new Redeem(this));
-        getCommand("treload").setExecutor(new Reload(this));
+        getCommand("redeem").setExecutor(new Redeem());
+        getCommand("donate").setExecutor(new Redeem());
+        getCommand("후원").setExecutor(new Redeem());
+        getCommand("문상").setExecutor(new Redeem());
+        getCommand("treload").setExecutor(new Reload());
     }
 
     /**

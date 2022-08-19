@@ -8,11 +8,9 @@ package net.gooday2die.torchdonation;
  * @author Gooday2die @ https://github.com/gooday2die/TorchDonation
  */
 
-import com.github.dockerjava.api.model.Config;
-import com.github.dockerjava.api.model.Task;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import net.gooday2die.torchdonation.CommandHandler.SessionQueue;
+import net.gooday2die.torchdonation.dbHandler.AbstractDB;
+import net.gooday2die.torchdonation.dbHandler.MySQL;
+import net.gooday2die.torchdonation.dbHandler.Sqlite3;
 import net.gooday2die.torchdonation.rDonationHandler.Session;
 import net.gooday2die.torchdonation.rDonationHandler.TaskQueue;
 import org.apache.commons.io.IOUtils;
@@ -22,7 +20,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,15 +42,16 @@ public class ConfigValues {
     public static String dbTablePrefix = null;
     public static File curPath = null;
     public static JavaPlugin thisPlugin = null;
-    public static SessionQueue sessionQueue = null;
     public static TaskQueue taskQueue = null;
     public static int queueSize = 0;
     public static boolean broadcastDonation;
     public static JSONArray cookies;
+    public static AbstractDB db = null;
 
     public static void loadConfig() {
         FileConfiguration config = ConfigValues.thisPlugin.getConfig();  // get config results
 
+        // Store config values from config.yml
         ConfigValues.rewardCommands = config.getStringList("rewardCommands");
         ConfigValues.useMySQL = config.getBoolean("useMySQL");
         ConfigValues.dbIP = config.getString("dbIP");
@@ -63,7 +61,6 @@ public class ConfigValues {
         ConfigValues.dbTablePrefix = config.getString("dbTablePrefix");
         ConfigValues.broadcastDonation = config.getBoolean("broadcastDonation");
         ConfigValues.curPath = ConfigValues.thisPlugin.getDataFolder();
-        ConfigValues.sessionQueue = new SessionQueue();
 
         try { // Try loading cookies.json.
             ConfigValues.loadJson();
@@ -80,6 +77,8 @@ public class ConfigValues {
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE + "컬쳐랜드 웹사이트에 로그인할 수 없습니다.");
             Bukkit.getPluginManager().disablePlugin(thisPlugin);
         }
+
+        ConfigValues.loadDB();
     }
 
     /**
@@ -114,5 +113,17 @@ public class ConfigValues {
         }
 
         taskQueue = new TaskQueue(session);
+    }
+
+    /**
+     * A private static method that connects db according to settings.
+     */
+    private static void loadDB() {
+        // Select DB type.
+        if (ConfigValues.useMySQL) ConfigValues.db = new MySQL();
+        else ConfigValues.db = new Sqlite3();
+
+        // Connect.
+        ConfigValues.db.connect();
     }
 }

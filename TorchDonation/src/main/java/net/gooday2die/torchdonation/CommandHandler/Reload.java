@@ -24,16 +24,6 @@ import org.bukkit.scheduler.BukkitRunnable;
  * A class for reloading config.yml
  */
 public class Reload implements CommandExecutor {
-    JavaPlugin thisPlugin;
-
-    /**
-     * A constructor method for this class
-     * @param plugin
-     */
-    public Reload(JavaPlugin plugin){
-        thisPlugin = plugin;
-    }
-
     /**
      * Override this command using onCommand.
      * This will reload config.yml and cookies.json
@@ -46,6 +36,8 @@ public class Reload implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         ConfigValues.loadConfig();
+        sender.sendMessage(ChatColor.GOLD + "[TorchDonation] " +
+                ChatColor.WHITE + "파일을 reload 했습니다.");
         return true;
     }
 }
