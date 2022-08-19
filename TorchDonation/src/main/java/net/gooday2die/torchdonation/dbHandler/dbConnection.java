@@ -88,7 +88,7 @@ public class dbConnection {
          * @param userDonation
          */
         public void record(UserDonation userDonation) {
-            this.donated(userDonation.player.getDisplayName(), userDonation.giftCode, userDonation.amount);
+            this.donated(userDonation.sender.getName(), userDonation.giftCode, userDonation.amount);
         }
 
         /**

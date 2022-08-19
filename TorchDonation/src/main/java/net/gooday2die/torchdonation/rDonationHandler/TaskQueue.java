@@ -1,7 +1,6 @@
 package net.gooday2die.torchdonation.rDonationHandler;
 
 import net.gooday2die.torchdonation.dbHandler.dbConnection;
-import net.gooday2die.torchdonation.rDonationHandler.UserDonation;
 import net.gooday2die.torchdonation.ConfigValues;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -33,7 +32,6 @@ public class TaskQueue {
             if (queue.isEmpty()) assert true;
             else {
                 UserDonation curDonation = this.dequeue();
-
             }
         }
     }
@@ -43,8 +41,8 @@ public class TaskQueue {
      * @param userDonation The UserDonation object to process donation.
      */
     private void processDonation(UserDonation userDonation) {
-        DonationHelper.Redeem redeem = new DonationHelper.Redeem(session.getDriver(), userDonation.giftCodeParts);
-        CommandSender sender = userDonation.player;
+        DonationHelper.Redeem redeem = new DonationHelper.Redeem(session, userDonation.giftCodeParts);
+        CommandSender sender = userDonation.sender;
 
         try { // when it works properly
             int amount = redeem.perform();
@@ -54,7 +52,7 @@ public class TaskQueue {
             // TODO : add polymorphism to DB.
             if (ConfigValues.useMySQL) con = new dbConnection.MysqlCon();
             else con = new dbConnection.sqliteCon();
-            con.donated(sender.getName(), code, amount);
+            ;
             con.close();
 
         } catch (DonationHelper.redeemFailureException e) { // with exceptions
@@ -67,14 +65,23 @@ public class TaskQueue {
                     " 컬쳐랜드에 로그인할 수 없습니다. 아이디 비밀번호를 확인해주세요.");
             sender.sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE +
                     " 문화상품권 충전하며 에러가 생겼습니다. 서버 관리자에게 말씀해주세요.");
-        }    }
+        }
+    }
+
+    /**
+     * A method that stops the background thread for checking queues.
+     */
+    public void stopBackgroundTask() {
+        keepRunning.set(false);
+    }
 
     /**
      * A method that enqueues UserDonation object into queue.
      * @param userDonation the UserDonation object to enqueue
      */
-    private void enqueue(UserDonation userDonation){
+    public void enqueue(UserDonation userDonation){
         queue.add(userDonation);
+        ConfigValues.queueSize++;
     }
 
     /**
@@ -82,6 +89,7 @@ public class TaskQueue {
      * @return the dequeued object from queue.
      */
     private UserDonation dequeue(){
+        ConfigValues.queueSize--;
         return queue.remove();
     }
 }

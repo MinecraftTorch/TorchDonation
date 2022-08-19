@@ -4,6 +4,7 @@ import net.gooday2die.torchdonation.ConfigValues;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.json.JSONException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -21,17 +22,19 @@ public class DonationHelper {
      * A class that redeems giftcode.
      */
     public static class Redeem {
+        private final Session session;
         private final ChromeDriver driver;
         private final String[] codes;
 
         /**
          * A constructor method for Redeem
-         * @param driver The ChromeDriver that we were using.
+         * @param session The Session that we are using to donate.
          * @param codes The String[] of codes.
          */
-        public Redeem(ChromeDriver driver, String[] codes) {
-            this.driver = driver;
+        public Redeem(Session session, String[] codes) {
+            this.session = session;
             this.codes = codes;
+            this.driver = this.session.getDriver();
         }
 
         /**
@@ -41,11 +44,25 @@ public class DonationHelper {
          * 1234-1234-1234-123456
          * @return returns total amount of money that was redeemed
          * @throws redeemFailureException When redeeming code failed (with reason as well).
+         * @throws Session.LoginFailureException When logging into system failed.
          */
-        public int perform() throws redeemFailureException {
+        public int perform() throws redeemFailureException, Session.LoginFailureException {
+            try { // Try refreshing page.
+                session.refresh();
+            } catch (Session.LoginFailureException ex1) { // If login failed, try logging in again.
+                try {
+                    session.login();
+                    session.refresh();
+                } catch (Session.LoginFailureException | JSONException ex2) { // If that failed again, throw Exception.
+                    throw new Session.LoginFailureException();
+                }
+            }
+
             this.enterKeys(); // Enter code.
             String amountCharged = "";
 
+            // Parse result values
+            // From string price원 to int price.
             for (int i = 0 ; i < 10 ; i++) {
                 try {
                     amountCharged = driver.findElement(By.xpath("//*[@id=\"wrap\"]/div[" + i + "]/section/dl/dd")).getText();

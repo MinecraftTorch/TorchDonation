@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 public class Session {
     private final ChromeDriver driver;
-    private boolean isLoggedIn = false;
+    public boolean isLoggedIn = false;
 
     /**
      * A constructor method for class Session.
@@ -95,11 +95,26 @@ public class Session {
 
     /**
      * A method that closes current session.
-     * Close to exiting chrome window.
+     * Close to exiting Chrome window.
      */
     public void close() {
         driver.close();
         driver.quit();
+    }
+
+    /**
+     * A method that refreshes web browser and checks if current state is logged in.
+     * @throws LoginFailureException When the account is not logged in.
+     */
+    public void refresh() throws LoginFailureException {
+        driver.get("https://m.cultureland.co.kr/csh/cshGiftCard.do");
+        // This means the login failed.
+        if (driver.getCurrentUrl().equals("https://m.cultureland.co.kr/mmb/loginMain.do")) {
+            isLoggedIn = false;
+            throw new LoginFailureException();
+        }
+        else
+            isLoggedIn = true;
     }
 
     /**
