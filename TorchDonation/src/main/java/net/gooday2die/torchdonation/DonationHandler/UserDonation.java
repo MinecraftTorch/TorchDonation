@@ -1,7 +1,6 @@
-package net.gooday2die.torchdonation.rDonationHandler;
+package net.gooday2die.torchdonation.DonationHandler;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 
 /**

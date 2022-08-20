@@ -10,11 +10,9 @@ package net.gooday2die.torchdonation;
 
 import net.gooday2die.torchdonation.CommandHandler.Redeem;
 import net.gooday2die.torchdonation.CommandHandler.Reload;
-import net.gooday2die.torchdonation.rDonationHandler.Session;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.json.JSONException;
 
 import java.io.File;
 import java.nio.file.Path;

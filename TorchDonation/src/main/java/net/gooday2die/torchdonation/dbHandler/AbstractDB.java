@@ -1,7 +1,7 @@
 package net.gooday2die.torchdonation.dbHandler;
 
 import net.gooday2die.torchdonation.ConfigValues;
-import net.gooday2die.torchdonation.rDonationHandler.UserDonation;
+import net.gooday2die.torchdonation.DonationHandler.UserDonation;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
@@ -43,8 +43,9 @@ public abstract class AbstractDB {
     /**
      * A method that records donation information to DB.
      * @param donation The UserDonation object.
+     * @throws dbQueryFailedException When DB Query failed.
      */
-    public void recordDonation(UserDonation donation) {
+    public void recordDonation(UserDonation donation) throws dbQueryFailedException{
         String username = donation.sender.getName();
         int amount = donation.amount;
         String code = donation.giftCode;
@@ -57,11 +58,11 @@ public abstract class AbstractDB {
 
         String SQL1;
         if (getDonationTotal(username) == -1) {
-            SQL1 = String.format("INSERT INTO %s_donation_clients (username, total) VALUE (\"%s\", %d)", ConfigValues.dbTablePrefix, username, amount);
+            SQL1 = String.format("INSERT INTO %s_donation_clients (username, total) VALUES (\"%s\", %d)", ConfigValues.dbTablePrefix, username, amount);
         } else {
             SQL1 = String.format("UPDATE %s_donation_clients SET total=%d WHERE username=\"%s\";", ConfigValues.dbTablePrefix, total, username);
         }
-        String SQL2 = String.format("INSERT INTO %s_donation_log (username, code, date, amount) VALUE (\"%s\", \"%s\", \"%s\" , %d)", ConfigValues.dbTablePrefix, username, code, currentTime, amount);
+        String SQL2 = String.format("INSERT INTO %s_donation_log (username, code, date, amount) VALUES (\"%s\", \"%s\", \"%s\" , %d)", ConfigValues.dbTablePrefix, username, code, currentTime, amount);
         try {
             // NullPointerException will never happen since this will not be called before initializing conn.
             Statement stmt = conn.createStatement();

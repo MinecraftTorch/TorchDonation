@@ -1,6 +1,7 @@
-package net.gooday2die.torchdonation.rDonationHandler;
+package net.gooday2die.torchdonation.DonationHandler;
 
 import net.gooday2die.torchdonation.ConfigValues;
+import net.gooday2die.torchdonation.dbHandler.AbstractDB;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -55,18 +56,23 @@ public class TaskQueue {
             userDonation.setSuccessful();
             userDonation.setAmount(amount);
             ConfigValues.db.recordDonation(userDonation); // Record donation to DB.
-        } catch (DonationHelper.redeemFailureException e) { // with exceptions
+        } catch (DonationHelper.redeemFailureException e) { // When redeeming failed.
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE +
                     sender.getName() + " 님이 후원을 실패했습니다. 사유 : " + e.getMessage());
             sender.sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE + "후원을 실패했습니다. 사유 : " + e.getMessage());
             userDonation.setFailure();
-        } catch (Session.LoginFailureException e) {
+        } catch (Session.LoginFailureException e) { // When login failed.
             e.printStackTrace();
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE +
                     " 컬쳐랜드에 로그인할 수 없습니다. 아이디 비밀번호를 확인해주세요.");
             sender.sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE +
                     " 문화상품권 충전하며 에러가 생겼습니다. 서버 관리자에게 말씀해주세요.");
             userDonation.setFailure();
+        } catch (AbstractDB.dbQueryFailedException e) { // When recording DB failed.
+            e.printStackTrace();
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.GREEN + sender.getName()
+                    + ChatColor.WHITE + " 님이 "  + ChatColor.GREEN + userDonation.amount + ChatColor.WHITE + " 만큼 후원했습니다." +
+                    " DB 오류로 인해 이를 기록하지 못했으므로 Log 에 남깁니다.");
         }
     }
 
@@ -83,7 +89,7 @@ public class TaskQueue {
      * A method that enqueues UserDonation object into queue.
      * @param userDonation the UserDonation object to enqueue
      */
-    public void enqueue(UserDonation userDonation){
+    synchronized public void enqueue(UserDonation userDonation){
         queue.add(userDonation);
         ConfigValues.queueSize++;
     }

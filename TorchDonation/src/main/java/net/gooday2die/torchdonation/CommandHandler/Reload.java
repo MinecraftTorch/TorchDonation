@@ -8,17 +8,11 @@ package net.gooday2die.torchdonation.CommandHandler;
  * @author Gooday2die @ https://github.com/gooday2die/TorchDonation
  */
 
-import com.github.dockerjava.api.model.Config;
 import net.gooday2die.torchdonation.ConfigValues;
-import net.gooday2die.torchdonation.CulturelandDonation.Session;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * A class for reloading config.yml
@@ -35,6 +29,8 @@ public class Reload implements CommandExecutor {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        ConfigValues.db.close();
+        ConfigValues.taskQueue.stop();
         ConfigValues.loadConfig();
         sender.sendMessage(ChatColor.GOLD + "[TorchDonation] " +
                 ChatColor.WHITE + "파일을 reload 했습니다.");

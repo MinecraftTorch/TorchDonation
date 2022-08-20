@@ -8,8 +8,6 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.SQLTimeoutException;
-import java.sql.Statement;
 
 public class Sqlite3 extends AbstractDB {
     /**

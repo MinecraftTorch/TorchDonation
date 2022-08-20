@@ -9,7 +9,7 @@ package net.gooday2die.torchdonation.CommandHandler;
  */
 
 import net.gooday2die.torchdonation.ConfigValues;
-import net.gooday2die.torchdonation.rDonationHandler.UserDonation;
+import net.gooday2die.torchdonation.DonationHandler.UserDonation;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -51,14 +51,11 @@ public class Redeem implements CommandExecutor {
                         sender.sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE
                                 + "후원을 처리중입니다. 잠시만 기다려주세요... / 대기열 순위 " + ConfigValues.queueSize);
                         UserDonation userDonation = new UserDonation(sender, args[0]);
-
-                        synchronized (ConfigValues.taskQueue) {
-                            ConfigValues.taskQueue.enqueue(userDonation);
-                        }
+                        ConfigValues.taskQueue.enqueue(userDonation);
                     }
                 } else {
                     sender.sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE +
-                            " 사용법 : " + ChatColor.GREEN + "/donate 1234-1234-1234-1234");
+                            "사용법 : " + ChatColor.GREEN + "/donate 1234-1234-1234-1234");
                 }
             }
         }.runTaskAsynchronously(ConfigValues.thisPlugin);
