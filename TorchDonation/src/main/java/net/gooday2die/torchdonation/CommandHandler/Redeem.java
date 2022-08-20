@@ -9,15 +9,11 @@ package net.gooday2die.torchdonation.CommandHandler;
  */
 
 import net.gooday2die.torchdonation.ConfigValues;
-import net.gooday2die.torchdonation.CulturelandDonation.RewardUser;
-import net.gooday2die.torchdonation.CulturelandDonation.Session;
-import net.gooday2die.torchdonation.dbHandler.dbConnection;
-import org.bukkit.Bukkit;
+import net.gooday2die.torchdonation.DonationHandler.UserDonation;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.regex.Pattern;
@@ -27,16 +23,6 @@ import java.util.regex.Pattern;
  * A class for redeeming giftcards
  */
 public class Redeem implements CommandExecutor {
-    JavaPlugin thisPlugin;
-
-    /**
-     * A constructor method for this class
-     * @param plugin the plugin object
-     */
-    public Redeem(JavaPlugin plugin){
-        thisPlugin = plugin;
-    }
-
     /**
      * Override this command using onCommand.
      * Redeem Giftcard using Asynchronous features.
@@ -59,20 +45,20 @@ public class Redeem implements CommandExecutor {
 
                     if (!(Pattern.matches(giftcardFormat, args[0]))) { // If it does not match regex.
                         sender.sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE +
-                                sender.getName() + " 올바르지 않은 문화상품권 형식입니다.");
+                                "올바르지 않은 문화상품권 형식입니다.");
                         sender.sendMessage(ChatColor.GREEN + "문화상품권 예시: 1234-1234-1234-1234 또는 1234-1234-1234-123456");
                     } else {
                         sender.sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE
                                 + "후원을 처리중입니다. 잠시만 기다려주세요... / 대기열 순위 " + ConfigValues.queueSize);
-                        UserDonation newUserdonation = new UserDonation(sender, args[0]);
-                        synchronized (ConfigValues.sessionQueue) {
-                            ConfigValues.sessionQueue.enqueue(newUserdonation);
-                            ConfigValues.sessionQueue.run();
-                        }
+                        UserDonation userDonation = new UserDonation(sender, args[0]);
+                        ConfigValues.taskQueue.enqueue(userDonation);
                     }
+                } else {
+                    sender.sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE +
+                            "사용법 : " + ChatColor.GREEN + "/donate 1234-1234-1234-1234");
                 }
             }
-        }.runTaskAsynchronously(thisPlugin);
+        }.runTaskAsynchronously(ConfigValues.thisPlugin);
         return true;
     }
 }
