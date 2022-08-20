@@ -35,8 +35,8 @@ public class Session {
         options.addArguments("--no-sandbox"); // Bypass OS security model
         options.addArguments("--disable-dev-shm-usage"); // Bypass OS security model
         options.addArguments("headless");
-        options.addArguments("\"user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "+
-                "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36\"");
+        //options.addArguments("\"user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "+
+        //        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36\"");
 
         driver = new ChromeDriver(options);
     }
@@ -69,8 +69,8 @@ public class Session {
                 String value = jsonObject.getString("value");
                 String path = jsonObject.getString("path");
                 // For expiration date, we need to convert unix epoch time to normal Date.
-                // When we set "Keep logged in" for Cultureland, they give an year expiration date for the token.
-                // Using that token, we are able to login to their system.
+                // When we set "Keep logged in" for CultureLand, they give a year expiration date for the token.
+                // Using that token, we are able to log in to their system.
                 Date expirationDate = new Date((long) Math.floor(jsonObject.getDouble("expirationDate")) * 1000);
                 boolean isSecure = jsonObject.getBoolean("secure");
                 boolean isHTTPOnly = jsonObject.getBoolean("httpOnly");

@@ -52,25 +52,31 @@ public class TaskQueue {
         try { // When it works properly
             int amount = redeem.perform(); // Try redeeming code.
             DonationHelper.reward(sender, amount); // Reward user.
+            userDonation.setSuccessful();
+            userDonation.setAmount(amount);
             ConfigValues.db.recordDonation(userDonation); // Record donation to DB.
         } catch (DonationHelper.redeemFailureException e) { // with exceptions
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE +
                     sender.getName() + " 님이 후원을 실패했습니다. 사유 : " + e.getMessage());
             sender.sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE + "후원을 실패했습니다. 사유 : " + e.getMessage());
+            userDonation.setFailure();
         } catch (Session.LoginFailureException e) {
             e.printStackTrace();
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE +
                     " 컬쳐랜드에 로그인할 수 없습니다. 아이디 비밀번호를 확인해주세요.");
             sender.sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE +
                     " 문화상품권 충전하며 에러가 생겼습니다. 서버 관리자에게 말씀해주세요.");
+            userDonation.setFailure();
         }
     }
 
     /**
-     * A method that stops the background thread for checking queues.
+     * A method that stops the background thread and closes session.
+     * This will be called when our plugin is disabled.
      */
-    public void stopBackgroundTask() {
+    public void stop() {
         keepRunning.set(false);
+        session.close();
     }
 
     /**

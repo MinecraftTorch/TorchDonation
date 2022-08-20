@@ -27,10 +27,8 @@ public abstract class AbstractDB {
      */
     protected void generateTables() throws SQLException {
         // create table if not exists
-        String createTable1 = "CREATE TABLE IF NOT EXISTS " + ConfigValues.dbTablePrefix +
-                "_donation_log(username TEXT, code TEXT, date DATETIME, amount INT)";
-        String createTable2 = "CREATE TABLE IF NOT EXISTS " + ConfigValues.dbTablePrefix +
-                "_donation_clients(username TEXT, total INT)";
+        String createTable1 = String.format("CREATE TABLE IF NOT EXISTS %s_donation_log(username TEXT, code TEXT, date DATETIME, amount INT)", ConfigValues.dbTablePrefix);
+        String createTable2 = String.format("CREATE TABLE IF NOT EXISTS %s_donation_clients(username TEXT, total INT)", ConfigValues.dbTablePrefix);
 
         try {
             // NullPointerException will never happen since this will not be called before initializing conn.
@@ -59,15 +57,11 @@ public abstract class AbstractDB {
 
         String SQL1;
         if (getDonationTotal(username) == -1) {
-            SQL1 = "INSERT INTO " + ConfigValues.dbTablePrefix +
-                    "_donation_clients (username, total) VALUE (\"" + username + "\", " + amount + ")";
+            SQL1 = String.format("INSERT INTO %s_donation_clients (username, total) VALUE (\"%s\", %d)", ConfigValues.dbTablePrefix, username, amount);
         } else {
-            SQL1 = "UPDATE " + ConfigValues.dbTablePrefix + "_donation_clients SET total=" + total
-                    + " WHERE username=\"" + username + "\";";
+            SQL1 = String.format("UPDATE %s_donation_clients SET total=%d WHERE username=\"%s\";", ConfigValues.dbTablePrefix, total, username);
         }
-        String SQL2 = "INSERT INTO " + ConfigValues.dbTablePrefix +
-                "_donation_log (username, code, date, amount) VALUE (\"" + username + "\", \"" +
-                code + "\", \"" + currentTime + "\" , " + amount + ")";
+        String SQL2 = String.format("INSERT INTO %s_donation_log (username, code, date, amount) VALUE (\"%s\", \"%s\", \"%s\" , %d)", ConfigValues.dbTablePrefix, username, code, currentTime, amount);
         try {
             // NullPointerException will never happen since this will not be called before initializing conn.
             Statement stmt = conn.createStatement();
@@ -85,10 +79,9 @@ public abstract class AbstractDB {
      * @return The user's donation amount in total.
      */
     public int getDonationTotal(String username) {
-        int total = 0;
+        int total;
         try {
-            String SQL = "SELECT total FROM " + ConfigValues.dbTablePrefix +
-                    "_donation_clients WHERE username=\"" + username + "\"";
+            String SQL = String.format("SELECT total FROM %s_donation_clients WHERE username=\"%s\"", ConfigValues.dbTablePrefix, username);
 
             // NullPointerException will never happen since this will not be called before initializing conn.
             Statement stmt = conn.createStatement();
