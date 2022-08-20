@@ -34,7 +34,7 @@ public class Session {
         options.addArguments("--disable-gpu");
         options.addArguments("--no-sandbox"); // Bypass OS security model
         options.addArguments("--disable-dev-shm-usage"); // Bypass OS security model
-        options.addArguments("headless");
+        //options.addArguments("headless");
         // options.addArguments("\"user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "+
         //        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36\"");
 
@@ -86,7 +86,7 @@ public class Session {
         driver.get("https://m.cultureland.co.kr/csh/cshGiftCard.do");
 
         // This means the login failed.
-        if (driver.getCurrentUrl().equals("https://m.cultureland.co.kr/mmb/loginMain.do"))
+        if (driver.getCurrentUrl().contains("https://m.cultureland.co.kr/mmb/loginMain.do"))
             throw new LoginFailureException();
         else
             isLoggedIn = true;

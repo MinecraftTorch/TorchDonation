@@ -4,8 +4,6 @@
 # config.yml에 적힌 내용 안읽고 질문하면 답변 안합니다.
 # 사용시 라이센스 지우지 마시기 바랍니다.
 
-# Cookie 파일을 생성하고 만들어진 쿠키 파일의 이름
-cookieFileName: "cookies.txt"
 # 후원 성공시 실행할 명령어
 # Placeholder가 있습니다.
 # %amount% : 후원한 금액
