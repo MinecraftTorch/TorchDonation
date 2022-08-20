@@ -6,7 +6,7 @@
 
     <groupId>net.gooday2die</groupId>
     <artifactId>TorchDonation</artifactId>
-    <version>1.0.1</version>
+    <version>2.0.0</version>
     <packaging>jar</packaging>
 
     <name>TorchDonation</name>
@@ -110,6 +110,11 @@
             <artifactId>webdrivermanager</artifactId>
             <version>5.0.3</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20080701</version>
         </dependency>
     </dependencies>
 </project>

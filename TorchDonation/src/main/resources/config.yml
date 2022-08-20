@@ -4,20 +4,25 @@
 # config.yml에 적힌 내용 안읽고 질문하면 답변 안합니다.
 # 사용시 라이센스 지우지 마시기 바랍니다.
 
-# 컬쳐랜드 ID
-username: "null"
-# 컬쳐랜드 비밀번호
-password: "null"
 # 후원 성공시 실행할 명령어
-# 명령어가 여러개일 경우 ## 로 구분합니다
 # Placeholder가 있습니다.
-# %AMOUNT% : 후원한 금액
-# %USER% : 후원한 유저
-# 예시: rewardCommands: "say %USER%##say %AMOUNT%"
-# -> say 후원자 이름
-# -> say 후원 금액
-# 위 두개의 명령어 실행
-rewardCommands: "null"
+# %amount% : 후원한 금액
+# %user% : 후원한 유저
+# 밑의 두 케이스의 예시는 다음과 같습니다
+# /say Gooday2die 님이 10000 만큼 후원하셨습니다!
+# /lp user Gooday2die group add VIP
+# /coin give Gooday2die 10000
+rewardCommands:
+  [
+  "say %user% 님이 %amount% 만큼 후원하셨습니다!",
+  "lp user %user% group add VIP",
+  "coin give %user% %amount%"
+  ]
+# 후원시 서버 전체에 알림을 할지 말지에 대한 여부입니다.
+broadcastDonation: true
+
+
+# DB 설정
 # MYSQL DB를 사용할지 여부입니다. DB가 뭔지 모르시면 false 로 놔주세요.
 # 만약 MYSQL DB를 사용하지 않는다면 SQLITE3 으로 저장합니다
 useMySQL: false
