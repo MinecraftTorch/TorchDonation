@@ -1,4 +1,4 @@
-package net.gooday2die.torchdonation.rDonationHandler;
+package net.gooday2die.torchdonation.DonationHandler;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import net.gooday2die.torchdonation.ConfigValues;
@@ -35,7 +35,7 @@ public class Session {
         options.addArguments("--no-sandbox"); // Bypass OS security model
         options.addArguments("--disable-dev-shm-usage"); // Bypass OS security model
         options.addArguments("headless");
-        //options.addArguments("\"user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "+
+        // options.addArguments("\"user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "+
         //        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36\"");
 
         driver = new ChromeDriver(options);

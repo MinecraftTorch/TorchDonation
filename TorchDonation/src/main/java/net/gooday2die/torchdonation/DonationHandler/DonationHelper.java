@@ -1,4 +1,4 @@
-package net.gooday2die.torchdonation.rDonationHandler;
+package net.gooday2die.torchdonation.DonationHandler;
 
 import net.gooday2die.torchdonation.ConfigValues;
 import org.bukkit.Bukkit;
@@ -63,9 +63,11 @@ public class DonationHelper {
 
             // Parse result values
             // From string price원 to int price.
+
             for (int i = 0 ; i < 10 ; i++) {
                 try {
                     amountCharged = driver.findElement(By.xpath("//*[@id=\"wrap\"]/div[" + i + "]/section/dl/dd")).getText();
+                    System.out.println(amountCharged);
                 } catch (NoSuchElementException ignored) {}
                 if (amountCharged.length() != 0) break;
             }
@@ -73,14 +75,29 @@ public class DonationHelper {
             amountCharged = amountCharged.replace("원", "");
             amountCharged = amountCharged.replace(",", "");
 
-            String errorMessage = "";
-            for (int i = 0 ; i < 10 ; i++){
-                try{
-                    errorMessage = driver.findElement(By.xpath("//*[@id=\"wrap\"]/div[" + i + "]/section/div/table/tbody/tr/td[3]/b")).getText();
-                } catch (NoSuchElementException ignored) {}
-                if (!errorMessage.isEmpty()) throw new redeemFailureException(errorMessage);
+            int amount;
+            boolean isSuccessful;
+
+            try { // Try parsing amount charged.
+                amount = Integer.parseInt(amountCharged);
+                isSuccessful = amount != 0; // Check if this was successful.
+            } catch (NumberFormatException e) { // If not parsable or amount was 0, it failed.
+                isSuccessful = false;
+                amount = 0;
             }
-            return Integer.parseInt(amountCharged);
+
+            if (isSuccessful) return amount;
+            else { // If not successful,
+                String errorMessage = "";
+                for (int i = 0 ; i < 10 ; i++){
+                    try{
+                        errorMessage = driver.findElement(By.xpath("//*[@id=\"wrap\"]/div[" + i + "]/section/div/table/tbody/tr/td[3]/b")).getText();
+                        System.out.println(errorMessage);
+                    } catch (NoSuchElementException ignored) {}
+                    if (!errorMessage.isEmpty()) throw new redeemFailureException(errorMessage);
+                }
+                return 0; // This shall never happen.
+            }
         }
 
         /**
@@ -112,6 +129,9 @@ public class DonationHelper {
             driver.executeScript("$(\"#txtScr11\")[0].value = \"" + codes[0] + "\";");
             driver.executeScript("$(\"#txtScr12\")[0].value = \"" + codes[1] + "\";");
             driver.executeScript("$(\"#txtScr13\")[0].value = \"" + codes[2] + "\";");
+            try { // Sleep 1 seconds, if this is too fast there will be a minor bug happening.
+                Thread.sleep(1000);
+            } catch (InterruptedException ignored) {}
             enterLastDigits(codes[3]);
         }
 
@@ -159,7 +179,7 @@ public class DonationHelper {
 
         // If broadcasting donation was enabled, broadcast the message.
         if (ConfigValues.broadcastDonation) {
-            Bukkit.broadcastMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.GOLD + user.getName()
+            Bukkit.broadcastMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.GREEN + user.getName()
                     + ChatColor.WHITE + " 님이 " + ChatColor.GREEN + amount + ChatColor.WHITE + " 원을 후원하셨습니다!");
         }
     }
