@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.SQLTimeoutException;
 import java.sql.Statement;
 
 public class Sqlite3 extends AbstractDB {
@@ -17,33 +18,22 @@ public class Sqlite3 extends AbstractDB {
     @Override
     public void connect() {
         File dataFolder = new File(ConfigValues.curPath, "data.db");
-        if (!dataFolder.exists()) { // if the file does not exist, generate one and do init.
-            try {
-                dataFolder.createNewFile();
 
-                String url = "jdbc:sqlite:" + dataFolder;
-                conn = DriverManager.getConnection(url);
-                String createTable1 = "CREATE TABLE IF NOT EXISTS donation_log(username TEXT, code TEXT, date DATETIME, amount INT)";
-                String createTable2 = "CREATE TABLE IF NOT EXISTS donation_clients(username TEXT, total INT)";
-
-                Statement stmt = conn.createStatement();
-                stmt.execute(createTable1);
-                stmt.execute(createTable2);
-
-            } catch (IOException | SQLException e) {
-                Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[TorchDonation] " +
-                        ChatColor.WHITE + "DB 파일을 생성할 수 없습니다.");
+        try {
+            // Just tired of warning that the output of this function is ignored. Just go assert true.
+            assert true | dataFolder.createNewFile();
+            String url = "jdbc:sqlite:" + dataFolder;
+            conn = DriverManager.getConnection(url);
+            this.generateTables();
+        } catch (IOException | SQLException e) {
+            if (e instanceof IOException) {
                 e.printStackTrace();
-            }
-        }
-        else { // if the file exists, just make connection.
-            try {
-                String url = "jdbc:sqlite:" + dataFolder;
-                conn = DriverManager.getConnection(url);
-            } catch (SQLException e){
                 Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[TorchDonation] " +
-                        ChatColor.WHITE + "DB 파일을 사용할 수 없습니다.");
+                        ChatColor.WHITE + "DB 파일을 생성 또는 사용할 수 없습니다.");
+            } else {
                 e.printStackTrace();
+                Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[TorchDonation] " +
+                        ChatColor.WHITE + "DB 에 Table 을 생성할 수 없습니다.");
             }
         }
     }

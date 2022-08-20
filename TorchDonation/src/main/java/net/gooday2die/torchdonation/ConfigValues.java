@@ -18,6 +18,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -31,8 +32,6 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class ConfigValues {
-    public static String username = null;
-    public static String password = null;
     public static List<String> rewardCommands = null;
     public static boolean useMySQL = false;
     public static String dbIP = null;
@@ -70,13 +69,19 @@ public class ConfigValues {
             Bukkit.getPluginManager().disablePlugin(thisPlugin);
         }
 
-        try { // Try logging into Cultureland website.
-            generateQueue();
-        } catch (Session.LoginFailureException e) { // If that failed, disable plugin.
-            e.printStackTrace();
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE + "컬쳐랜드 웹사이트에 로그인할 수 없습니다.");
-            Bukkit.getPluginManager().disablePlugin(thisPlugin);
-        }
+        // Generate session queue using async, since it takes time.
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                try { // Try logging into Cultureland website.
+                    generateQueue();
+                } catch (Session.LoginFailureException e) { // If that failed, disable plugin.
+                    e.printStackTrace();
+                    Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[TorchDonation] " + ChatColor.WHITE + "컬쳐랜드 웹사이트에 로그인할 수 없습니다.");
+                    Bukkit.getPluginManager().disablePlugin(thisPlugin);
+                }
+            }
+        }.runTaskAsynchronously(thisPlugin);
 
         ConfigValues.loadDB();
     }

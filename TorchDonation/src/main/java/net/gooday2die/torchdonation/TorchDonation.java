@@ -40,9 +40,10 @@ public final class TorchDonation extends JavaPlugin {
        saveDefaultConfig(); // Save default config if it does not exist.
        Path cookiesPath = Paths.get(this.getDataFolder().getAbsolutePath(), "cookies.json");
        if (!new File(cookiesPath.toString()).exists()) {
-           saveResource("cookies.json", false);
+            saveResource("cookies.json", false);
             Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE + "cookies.json" +
-                    "이 존재하지 않습니다. 사용 방법은 https://github.com/MinecraftTorch/TorchDonation/blob/main/Cookies.md 를 확인해주세요!");
+                    "이 존재하지 않습니다. 새로 하나 생성했습니다. 사용 방법은 https://github.com/MinecraftTorch/TorchDonation/blob/main/Cookies.md 를 확인해주세요!");
+            Bukkit.getPluginManager().disablePlugin(this);
        }
     }
 
@@ -60,18 +61,12 @@ public final class TorchDonation extends JavaPlugin {
             Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE + "Sqlite 를 사용합니다.");
 
         Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE + "플러그인이 로드되었습니다.");
-
-        Session session = new Session();
-
-        try {
-            session.login();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
     public void onDisable() {
+        ConfigValues.db.close();
+        ConfigValues.taskQueue.stop();
         Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[TorchDonation] " + ChatColor.WHITE + "플러그인이 종료되었습니다.");
     }
 }
