@@ -67,7 +67,6 @@ public class DonationHelper {
             for (int i = 0 ; i < 10 ; i++) {
                 try {
                     amountCharged = driver.findElement(By.xpath("//*[@id=\"wrap\"]/div[" + i + "]/section/dl/dd")).getText();
-                    System.out.println(amountCharged);
                 } catch (NoSuchElementException ignored) {}
                 if (amountCharged.length() != 0) break;
             }
@@ -92,7 +91,6 @@ public class DonationHelper {
                 for (int i = 0 ; i < 10 ; i++){
                     try{
                         errorMessage = driver.findElement(By.xpath("//*[@id=\"wrap\"]/div[" + i + "]/section/div/table/tbody/tr/td[3]/b")).getText();
-                        System.out.println(errorMessage);
                     } catch (NoSuchElementException ignored) {}
                     if (!errorMessage.isEmpty()) throw new redeemFailureException(errorMessage);
                 }
