@@ -28,7 +28,7 @@ public class UserDonation {
         giftCodeParts[0] = giftCode.substring(0, 4);
         giftCodeParts[1] = giftCode.substring(5, 9);
         giftCodeParts[2] = giftCode.substring(10, 14);
-        giftCodeParts[3] = giftCode.substring(15, giftCode.length());
+        giftCodeParts[3] = giftCode.substring(15);
     }
 
     /**
