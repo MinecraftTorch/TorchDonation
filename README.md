@@ -1,4 +1,5 @@
 # Torch Donation
+![language](https://img.shields.io/github/languages/top/MinecraftTorch/TorchDonation) [![CodeFactor](https://www.codefactor.io/repository/github/minecrafttorch/TorchDonation/badge)](https://www.codefactor.io/repository/github/minecrafttorch/navercafealert) ![downloads](https://img.shields.io/github/downloads/MinecraftTorch/TorchDonation/total) ![enter image description here](https://img.shields.io/github/license/MinecraftTorch/TorchDonation) ![enter image description here](https://img.shields.io/github/v/release/MinecraftTorch/TorchDonation)
 ## 소개
 ### 문화상품권 후원 자동처리 플러그인
 -   문화상품권을 자동으로 충전하고 이에 따른 보상을 지급하는 플러그인입니다.
@@ -21,4 +22,8 @@ https://github.com/MinecraftTorch/TorchDonation/wiki/Config.yml 를 확인해주
 
 ## 데모 영상
 원래 플러그인을 작동시는 Chrome 이 뜨지 않습니다. 단지 테스트 용도로 여러분들께 페이지를 보여드리기 위해서 나오는 이미지입니다.
+
+https://user-images.githubusercontent.com/49092508/185739955-16865220-f52a-4828-8c02-3f82acf5f2ad.mp4
+
+https://user-images.githubusercontent.com/49092508/185739957-c1da0411-6f94-4b57-9de8-a6d713fe6f62.mp4
 
