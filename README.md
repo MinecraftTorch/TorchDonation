@@ -1,5 +1,10 @@
 # Torch Donation
 ![language](https://img.shields.io/github/languages/top/MinecraftTorch/TorchDonation) [![CodeFactor](https://www.codefactor.io/repository/github/minecrafttorch/TorchDonation/badge)](https://www.codefactor.io/repository/github/minecrafttorch/navercafealert) ![downloads](https://img.shields.io/github/downloads/MinecraftTorch/TorchDonation/total) ![enter image description here](https://img.shields.io/github/license/MinecraftTorch/TorchDonation) ![enter image description here](https://img.shields.io/github/v/release/MinecraftTorch/TorchDonation)
+## 경고
+- 해당 플러그인을 사용하며 생기는 모든 문제 및 책임은 사용자 본인에게 있습니다.
+- 이 플러그인은 이런 방식으로 이론상 동작할 수 있다는 것을 알려주기 위한 플러그인입니다.
+- 컬쳐랜드 직원분들이 플러그인을 내려달라고 요청하신다면 언제든 없어질 수 있는 플러그인입니다.
+
 ## 소개
 ### 문화상품권 후원 자동처리 플러그인
 -   문화상품권을 자동으로 충전하고 이에 따른 보상을 지급하는 플러그인입니다.
